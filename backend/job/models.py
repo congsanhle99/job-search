@@ -78,3 +78,6 @@ class Job(models.Model):
 
         self.point = Point(lng, lat)
         super(Job, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title

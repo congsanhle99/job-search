@@ -42,6 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # postgres
     'django.contrib.gis',
+    'rest_framework',
+    'corsheaders',
+    # 'storages',
+    'django_filters',
+    # app
+    'job.apps.JobConfig'
+
 
 ]
 
@@ -115,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bangkok'
 
 USE_I18N = True
 
