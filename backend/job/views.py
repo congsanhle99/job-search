@@ -6,6 +6,7 @@ from django.db.models import Avg, Min, Max, Count
 from .serializers import JobSerializer
 from .models import Job
 from .filters import JobFilter
+from rest_framework.pagination import PageNumberPagination
 # Create your views here.
 # define endpoint
 
@@ -15,8 +16,19 @@ from .filters import JobFilter
 def getAllJobs(request):
     filterSet = JobFilter(
         request.GET, queryset=Job.objects.all().order_by('id'))
-    serializer = JobSerializer(filterSet.qs, many=True)
-    return Response(serializer.data)
+    count = filterSet.qs.count()
+    # pagination
+    resPerPage = 3
+    paginator = PageNumberPagination()
+    paginator.page_size = resPerPage
+    querySet = paginator.paginate_queryset(filterSet.qs, request)
+    #
+    serializer = JobSerializer(querySet, many=True)
+    return Response({
+        'count': count,
+        'resPerPage': resPerPage,
+        'jobs': serializer.data
+    })
 
 
 @api_view(['GET'])
