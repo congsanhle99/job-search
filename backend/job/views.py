@@ -5,7 +5,7 @@ from rest_framework import status
 from django.db.models import Avg, Min, Max, Count
 from .serializers import JobSerializer
 from .models import Job
-
+from .filters import JobFilter
 # Create your views here.
 # define endpoint
 
@@ -13,8 +13,9 @@ from .models import Job
 @api_view(['GET'])
 # get all jobs
 def getAllJobs(request):
-    jobs = Job.objects.all()
-    serializer = JobSerializer(jobs, many=True)
+    filterSet = JobFilter(
+        request.GET, queryset=Job.objects.all().order_by('id'))
+    serializer = JobSerializer(filterSet.qs, many=True)
     return Response(serializer.data)
 
 
