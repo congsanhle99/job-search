@@ -48,8 +48,8 @@ INSTALLED_APPS = [
     # 'storages',
     'django_filters',
     # app
-    'job.apps.JobConfig'
-    'job.apps.AccountConfig'
+    'job.apps.JobConfig',
+    'account.apps.AccountConfig',
 
 
 ]
@@ -120,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication'
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
 }
 
