@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from datetime import timedelta
 import os
 from pathlib import Path
 import dotenv
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'django_filters',
     # app
     'job.apps.JobConfig'
+    'job.apps.AccountConfig'
 
 
 ]
@@ -116,6 +118,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    )
+}
+
+SIMPLE_JWT = {
+    # how long access tokens are valid
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=15),
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
