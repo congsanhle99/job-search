@@ -7,7 +7,7 @@ import AuthContext from "../../context/AuthContext";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { loading, error, isAuthenticated } = useContext(AuthContext);
+  const { loading, error, isAuthenticated, login } = useContext(AuthContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,6 +22,7 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    login({ username: email, password: password });
   };
 
   return (
