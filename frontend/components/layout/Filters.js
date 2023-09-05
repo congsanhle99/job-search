@@ -1,9 +1,54 @@
 import React from "react";
+import { useRouter } from "next/router";
 
 const Filters = () => {
-  const handleClick = (checkbox) => {};
+  const router = useRouter();
 
-  const checkHandler = (checkBoxType, checkBoxValue) => {};
+  let queryParams;
+  if (typeof window !== "undefined") {
+    queryParams = new URLSearchParams(window.location.search);
+  }
+
+  const handleClick = (checkbox) => {
+    if (typeof window !== "undefined") {
+      const checkboxes = document.getElementsByName(checkbox.name);
+      checkboxes.forEach((item) => {
+        if (item !== checkbox) {
+          item.checked = false;
+        }
+      });
+    }
+
+    if (checkbox.checked === false) {
+      // remove filter from query
+      if (queryParams.has(checkbox.name)) {
+        queryParams.delete(checkbox.name);
+        router.replace({
+          search: queryParams.toString(),
+        });
+      }
+    } else {
+      // set filter
+      if (queryParams.has(checkbox.name)) {
+        queryParams.set(checkbox.name, checkbox.value);
+      } else {
+        // append new filter
+        queryParams.append(checkbox.name, checkbox.value);
+      }
+
+      router.replace({
+        search: queryParams.toString(),
+      });
+    }
+  };
+
+  const checkHandler = (checkBoxType, checkBoxValue) => {
+    if (typeof window !== "undefined") {
+      const value = queryParams.get(checkBoxType);
+      if (checkBoxValue === value) return true;
+      return false;
+    }
+  };
 
   return (
     <div className="sidebar mt-5">
