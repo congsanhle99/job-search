@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ const Login = () => {
 
   useEffect(() => {
     if (error) {
-      console.log("error: ", error);
+      toast.error(error);
     }
 
     if (isAuthenticated && !loading) {
