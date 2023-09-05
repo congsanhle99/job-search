@@ -1,21 +1,10 @@
-import Search from "../components/layout/Search";
 import Layout from "../components/layout/Layout";
-import axios from "axios";
+import Search from "../components/layout/Search";
 
-export default function Index({ data }) {
+export default function Index() {
   return (
     <Layout title="Search your job">
       <Search />
     </Layout>
   );
-}
-
-export async function getServerSideProps() {
-  const res = await axios.get(`${process.env.API_URL}/api/jobs/`);
-  const data = res.data;
-  return {
-    props: {
-      data,
-    },
-  };
 }
