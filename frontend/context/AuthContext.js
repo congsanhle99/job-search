@@ -78,14 +78,14 @@ export const AuthProvider = ({ children }) => {
   const register = async ({ firstName, lastName, email, password }) => {
     try {
       setLoading(true);
-      const res = await axios.post(`${process.env.API_URL}/api/register`, {
+      const res = await axios.post(`${process.env.API_URL}/api/register/`, {
         first_name: firstName,
         last_name: lastName,
         email,
         password,
       });
 
-      if (res.data.username) {
+      if (res.data.message) {
         setLoading(false);
         router.push("/login");
       }
