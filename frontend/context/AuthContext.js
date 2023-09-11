@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState(null);
   const [updated, setUpdated] = useState(null);
+  const [uploaded, setUploaded] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -126,6 +127,26 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  //upload Resume
+  const uploadResume = async (formData, access_token) => {
+    try {
+      setLoading(true);
+      const res = await axios.post(`${process.env.API_URL}/api/upload/resume`, formData, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+
+      if (res.data) {
+        setLoading(false);
+        setUploaded(true);
+      }
+    } catch (error) {
+      setLoading(false);
+      setError(error.response && (error.response.data.detail || error.response.data.error));
+    }
+  };
+
   //
   const clearErrors = () => {
     setError(null);
@@ -145,6 +166,9 @@ export const AuthProvider = ({ children }) => {
         updated,
         setUpdated,
         updateProfile,
+        updated,
+        setUpdated,
+        uploadResume,
       }}
     >
       {children}
