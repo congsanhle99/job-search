@@ -1,6 +1,5 @@
 import axios from "axios";
-import { createContext, useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { createContext, useState } from "react";
 
 const JobContext = createContext();
 
@@ -9,7 +8,7 @@ export const JobProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [updated, setUpdated] = useState(null);
   const [applied, setApplied] = useState(false);
-  const router = useRouter();
+  const [stats, setStats] = useState(null);
 
   // apply to job
   const applyToJob = async (id, access_token) => {
@@ -53,6 +52,20 @@ export const JobProvider = ({ children }) => {
     }
   };
 
+  // get topic stats
+  const getTopicStats = async (topic) => {
+    try {
+      setLoading(true);
+      const res = await axios.get(`${process.env.API_URL}/api/stats/${topic}/`);
+
+      setLoading(false);
+      setStats(res.data);
+    } catch (error) {
+      setLoading(false);
+      setError(error.response && (error.response.data.detail || error.response.data.error));
+    }
+  };
+
   //
   const clearErrors = () => {
     setError(null);
@@ -70,6 +83,9 @@ export const JobProvider = ({ children }) => {
         setApplied,
         applyToJob,
         checkJobApplied,
+        stats,
+        setStats,
+        getTopicStats,
       }}
     >
       {children}
