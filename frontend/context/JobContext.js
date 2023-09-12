@@ -35,6 +35,24 @@ export const JobProvider = ({ children }) => {
     }
   };
 
+  // check job applied
+  const checkJobApplied = async (id, access_token) => {
+    try {
+      setLoading(true);
+      const res = await axios.get(`${process.env.API_URL}/api/jobs/${id}/check/`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+
+      setLoading(false);
+      setApplied(res.data);
+    } catch (error) {
+      setLoading(false);
+      setError(error.response && (error.response.data.detail || error.response.data.error));
+    }
+  };
+
   //
   const clearErrors = () => {
     setError(null);
@@ -51,6 +69,7 @@ export const JobProvider = ({ children }) => {
         applied,
         setApplied,
         applyToJob,
+        checkJobApplied,
       }}
     >
       {children}
