@@ -166,8 +166,8 @@ export const AuthProvider = ({ children }) => {
         updated,
         setUpdated,
         updateProfile,
-        updated,
-        setUpdated,
+        uploaded,
+        setUploaded,
         uploadResume,
       }}
     >
