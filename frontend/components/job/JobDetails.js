@@ -1,7 +1,22 @@
-import React from "react";
 import moment from "moment/moment";
+import { useContext, useEffect } from "react";
+import { toast } from "react-toastify";
+import JobContext from "../../context/JobContext";
 
-const JobDetails = ({ job, candidates }) => {
+const JobDetails = ({ job, candidates, access_token }) => {
+  const { loading, error, clearErrors, updated, setUpdated, applied, setApplied, applyToJob } = useContext(JobContext);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      clearErrors();
+    }
+  }, [error]);
+
+  const applyToJobHandler = () => {
+    applyToJob(job.id, access_token);
+  };
+
   return (
     <div className="job-details-wrapper">
       <div className="container container-fluid">
@@ -21,7 +36,18 @@ const JobDetails = ({ job, candidates }) => {
 
                 <div className="mt-3">
                   <span>
-                    <button className="btn btn-primary px-4 py-2 apply-btn">Apply Now</button>
+                    {loading ? (
+                      "Loading"
+                    ) : applied ? (
+                      <button className="btn btn-success px-4 py-2 apply-btn" disabled>
+                        <i aria-hidden className="fas fa-check"></i>
+                        {loading ? "Loading" : "Apply Now"}
+                      </button>
+                    ) : (
+                      <button className="btn btn-primary px-4 py-2 apply-btn" onClick={applyToJobHandler}>
+                        {loading ? "Loading..." : "Apply Now"}
+                      </button>
+                    )}
                     <span className="ml-4 text-success">
                       <b>{candidates}</b> candidates has applied to this job.
                     </span>

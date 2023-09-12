@@ -5,7 +5,7 @@ import moment from "moment/moment";
 const JobItem = ({ job }) => {
   return (
     <a href={`/jobs/${job.id}`}>
-      <a className="job-listing">
+      <div className="job-listing">
         <div className="job-listing-details">
           <div className="job-listing-description">
             <h4 className="job-listing-company">{job.company}</h4>
@@ -32,7 +32,7 @@ const JobItem = ({ job }) => {
             </li>
           </ul>
         </div>
-      </a>
+      </div>
     </a>
   );
 };
